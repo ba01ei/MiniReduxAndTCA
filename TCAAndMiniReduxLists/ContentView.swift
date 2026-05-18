@@ -5,20 +5,29 @@
 //  Created by Bao Lei on 5/18/26.
 //
 
+import ComposableArchitecture
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+  var body: some View {
+    TabView {
+      MiniReduxListView()
+        .tabItem {
+          Label("MiniRedux", systemImage: "list.bullet.rectangle")
         }
-        .padding()
+
+      TCAListView(
+        store: Store(initialState: TCAListFeature.State()) {
+          TCAListFeature()
+        }
+      )
+      .tabItem {
+        Label("TCA", systemImage: "list.bullet.indent")
+      }
     }
+  }
 }
 
 #Preview {
-    ContentView()
+  ContentView()
 }
