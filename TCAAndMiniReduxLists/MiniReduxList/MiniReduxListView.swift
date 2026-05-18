@@ -23,6 +23,9 @@ struct MiniReduxListView: View {
               .font(.footnote)
               .foregroundStyle(.secondary)
           }
+          Button("Add") {
+            store.send(.addTapped)
+          }
         }
       }
     }
@@ -32,6 +35,11 @@ struct MiniReduxListView: View {
 
 struct MiniReduxItemRow: View {
   let store: MiniReduxItemStore
+
+  init(store: MiniReduxItemStore) {
+    self.store = store
+    print("[MiniRedux] row created for \(store.id)")
+  }
 
   var body: some View {
     Button {

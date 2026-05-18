@@ -40,6 +40,7 @@ struct TCAListFeature {
   enum Action {
     case onAppear
     case items(IdentifiedActionOf<TCAItemFeature>)
+    case addTapped
   }
 
   var body: some ReducerOf<Self> {
@@ -48,7 +49,7 @@ struct TCAListFeature {
       case .onAppear:
         guard state.items.isEmpty else { return .none }
         state.items = IdentifiedArrayOf(
-          uniqueElements: (1...1000).map { TCAItemFeature.State(id: $0, number: $0) }
+          uniqueElements: (0..<100).map { TCAItemFeature.State(id: $0, number: $0) }
         )
         return .none
 
@@ -57,6 +58,13 @@ struct TCAListFeature {
         return .none
 
       case .items:
+        return .none
+
+      case .addTapped:
+        let num = state.items.count
+        state.items.append(
+          TCAItemFeature.State(id: num, number: num)
+        )
         return .none
       }
     }

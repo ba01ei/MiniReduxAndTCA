@@ -39,12 +39,13 @@ final class MiniReduxListStore: BaseStore<MiniReduxListStore.Action> {
   enum Action: Sendable {
     case onAppear
     case itemAction(id: Int, MiniReduxItemStore.Action)
+    case addTapped
   }
 
   override func reduce(_ action: Action) -> Effect<Action> {
     switch action {
     case .onAppear:
-      let fetched = (1...1000).map { (id: $0, number: $0) }
+      let fetched = (0..<100).map { (id: $0, number: $0) }
       items.updateInPlace(newItems: fetched, newItemId: \.id) { _, item in
         MiniReduxItemStore(id: item.id, number: item.number).delegateAction(to: self, {
           .itemAction(id: item.id, $0)
@@ -58,6 +59,16 @@ final class MiniReduxListStore: BaseStore<MiniReduxListStore.Action> {
         lastTappedID = id
         return .none
       }
+      
+    case .addTapped:
+      let num = items.count
+      items.append(
+        MiniReduxItemStore(id: num, number: num).delegateAction(to: self, {
+          .itemAction(id: num, $0)
+        })
+      )
+      return .none
+
     }
   }
 }

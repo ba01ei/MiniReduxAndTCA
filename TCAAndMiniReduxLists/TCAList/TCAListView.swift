@@ -27,6 +27,9 @@ struct TCAListView: View {
               .font(.footnote)
               .foregroundStyle(.secondary)
           }
+          Button("Add") {
+            store.send(.addTapped)
+          }
         }
       }
     }
@@ -37,6 +40,11 @@ struct TCAListView: View {
 struct TCAItemRow: View {
   let store: StoreOf<TCAItemFeature>
 
+  init(store: StoreOf<TCAItemFeature>) {
+    self.store = store
+    print("[TCA] row created for \(store.state.id)")
+  }
+  
   var body: some View {
     Button {
       store.send(.cellTapped)
