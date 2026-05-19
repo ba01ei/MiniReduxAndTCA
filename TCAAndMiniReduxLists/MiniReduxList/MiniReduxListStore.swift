@@ -38,7 +38,7 @@ final class MiniReduxListStore: BaseStore<MiniReduxListStore.Action> {
 
   enum Action: Sendable {
     case onAppear
-    case itemAction(id: Int, MiniReduxItemStore.Action)
+    case items(id: Int, MiniReduxItemStore.Action)
     case addTapped
   }
 
@@ -47,23 +47,23 @@ final class MiniReduxListStore: BaseStore<MiniReduxListStore.Action> {
     case .onAppear:
       items = (0..<100).map { number in
         MiniReduxItemStore(id: number, number: number).delegateAction(to: self, {
-          .itemAction(id: number, $0)
+          .items(id: number, $0)
         })
       }
       return .none
 
-    case .itemAction(let id, let childAction):
-      switch childAction {
-      case .cellTapped:
-        lastTappedID = id
-        return .none
-      }
-      
+    case let .items(id, .cellTapped):
+      lastTappedID = id
+      return .none
+
+    case .items:
+      return .none
+
     case .addTapped:
       let num = items.count
       items.insert(
         MiniReduxItemStore(id: num, number: num).delegateAction(to: self, {
-          .itemAction(id: num, $0)
+          .items(id: num, $0)
         }),
         at: 0,
       )
