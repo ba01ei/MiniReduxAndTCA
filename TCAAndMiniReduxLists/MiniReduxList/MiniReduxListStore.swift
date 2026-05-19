@@ -45,10 +45,9 @@ final class MiniReduxListStore: BaseStore<MiniReduxListStore.Action> {
   override func reduce(_ action: Action) -> Effect<Action> {
     switch action {
     case .onAppear:
-      let fetched = (0..<100).map { (id: $0, number: $0) }
-      items = fetched.map { item in
-        MiniReduxItemStore(id: item.id, number: item.number).delegateAction(to: self, {
-          .itemAction(id: item.id, $0)
+      items = (0..<100).map { number in
+        MiniReduxItemStore(id: number, number: number).delegateAction(to: self, {
+          .itemAction(id: number, $0)
         })
       }
       return .none
