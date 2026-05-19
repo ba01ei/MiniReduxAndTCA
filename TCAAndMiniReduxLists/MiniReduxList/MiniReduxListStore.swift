@@ -46,7 +46,7 @@ final class MiniReduxListStore: BaseStore<MiniReduxListStore.Action> {
     switch action {
     case .onAppear:
       let fetched = (0..<100).map { (id: $0, number: $0) }
-      items.updateInPlace(newItems: fetched, newItemId: \.id) { _, item in
+      items = fetched.map { item in
         MiniReduxItemStore(id: item.id, number: item.number).delegateAction(to: self, {
           .itemAction(id: item.id, $0)
         })
