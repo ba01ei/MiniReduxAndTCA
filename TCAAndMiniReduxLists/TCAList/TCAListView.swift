@@ -23,7 +23,7 @@ struct TCAListView: View {
       .toolbar {
         if let id = store.lastTappedID {
           ToolbarItem(placement: .topBarTrailing) {
-            Text("Last: \(id)")
+            Text("Last Tap: \(id)")
               .font(.footnote)
               .foregroundStyle(.secondary)
           }
