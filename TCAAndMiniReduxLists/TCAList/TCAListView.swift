@@ -21,12 +21,14 @@ struct TCAListView: View {
       .listStyle(.plain)
       .navigationTitle("TCA")
       .toolbar {
-        ToolbarItem(placement: .topBarTrailing) {
-          if let id = store.lastTappedID {
+        if let id = store.lastTappedID {
+          ToolbarItem(placement: .topBarTrailing) {
             Text("Last: \(id)")
               .font(.footnote)
               .foregroundStyle(.secondary)
           }
+        }
+        ToolbarItem(placement: .topBarTrailing) {
           Button("Add") {
             store.send(.addTapped)
           }
@@ -39,13 +41,9 @@ struct TCAListView: View {
 
 struct TCAItemRow: View {
   let store: StoreOf<TCAItemFeature>
-
-  init(store: StoreOf<TCAItemFeature>) {
-    self.store = store
-    print("[TCA] row created for \(store.state.id)")
-  }
   
   var body: some View {
+    let _ = print("[TCA] row rendered for \(store.id)")
     Button {
       store.send(.cellTapped)
     } label: {

@@ -62,10 +62,11 @@ final class MiniReduxListStore: BaseStore<MiniReduxListStore.Action> {
       
     case .addTapped:
       let num = items.count
-      items.append(
+      items.insert(
         MiniReduxItemStore(id: num, number: num).delegateAction(to: self, {
           .itemAction(id: num, $0)
-        })
+        }),
+        at: 0,
       )
       return .none
 

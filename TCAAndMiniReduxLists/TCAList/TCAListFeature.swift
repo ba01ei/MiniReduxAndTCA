@@ -62,8 +62,9 @@ struct TCAListFeature {
 
       case .addTapped:
         let num = state.items.count
-        state.items.append(
-          TCAItemFeature.State(id: num, number: num)
+        state.items.insert(
+          TCAItemFeature.State(id: num, number: num),
+          at: 0,
         )
         return .none
       }

@@ -17,12 +17,14 @@ struct MiniReduxListView: View {
       .listStyle(.plain)
       .navigationTitle("MiniRedux")
       .toolbar {
-        ToolbarItem(placement: .topBarTrailing) {
-          if let id = store.lastTappedID {
+        if let id = store.lastTappedID {
+          ToolbarItem(placement: .topBarTrailing) {
             Text("Last: \(id)")
               .font(.footnote)
               .foregroundStyle(.secondary)
           }
+        }
+        ToolbarItem(placement: .topBarTrailing) {
           Button("Add") {
             store.send(.addTapped)
           }
@@ -36,12 +38,8 @@ struct MiniReduxListView: View {
 struct MiniReduxItemRow: View {
   let store: MiniReduxItemStore
 
-  init(store: MiniReduxItemStore) {
-    self.store = store
-    print("[MiniRedux] row created for \(store.id)")
-  }
-
   var body: some View {
+    let _ = print("[MiniRedux] row rendered for \(store.id)")
     Button {
       store.send(.cellTapped)
     } label: {
