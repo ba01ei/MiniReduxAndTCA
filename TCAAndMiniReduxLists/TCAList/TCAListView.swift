@@ -43,7 +43,7 @@ struct TCAItemRow: View {
   let store: StoreOf<TCAItemFeature>
   
   var body: some View {
-    let _ = print("[TCA] row rendered for \(store.id)")
+    let _ = print("[TCA] row rendered for \(store.number)")
     Button {
       store.send(.cellTapped)
     } label: {
